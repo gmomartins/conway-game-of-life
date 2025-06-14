@@ -121,3 +121,35 @@ test("toad - period 2", () => {
     data = conwayRules.applyRules(data);
     expect(data).toEqual(firstStage)
 })
+
+test("beacon - period 2", () => {
+
+    const firstStage = [
+        [true, true, false, false],
+        [true, false, false, false],
+        [false, false, false, true],
+        [false, false, true, true]
+    ];
+
+    const secondStage = [
+        [true, true, false, false],
+        [true, true, false, false],
+        [false, false, true, true],
+        [false, false, true, true]
+    ];
+
+    let data = [
+        [true, true, false, false],
+        [true, false, false, false],
+        [false, false, false, true],
+        [false, false, true, true]
+    ];
+
+    let conwayRules = new ConwayRules();
+
+    data = conwayRules.applyRules(data);
+    expect(data).toEqual(secondStage)
+
+    data = conwayRules.applyRules(data);
+    expect(data).toEqual(firstStage)
+})

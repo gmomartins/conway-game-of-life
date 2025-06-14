@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ControlBar from "../components/control-bar/ControlBar";
 import Grid from "../components/grid/Grid";
 import usePlayStop from "../hooks/usePlayStop";
@@ -9,8 +9,8 @@ const Home = () => {
     const conwayRules = new ConwayRules();
 
     const createGridData = () => {
-        let _rows = new Array(gridSize.rows).fill(0);
-        return _rows.map(() => new Array(gridSize.cols).fill(0));
+        let _rows = new Array(gridSize.rows).fill(false);
+        return _rows.map(() => new Array(gridSize.cols).fill(false));
     }
 
     const clearGrid = () => {
@@ -18,7 +18,11 @@ const Home = () => {
         setGridData(createGridData());
     }
 
-    const [gridData, setGridData] = useState<boolean[][]>(createGridData());
+    const [gridData, setGridData] = useState<boolean[][]>([]);
+
+    useEffect(() => {
+        setGridData(createGridData());
+    }, []);
 
 
     const handleOnRandomize = () => {
@@ -35,22 +39,28 @@ const Home = () => {
     }
 
     const askNumberOfGenerationsToJump = () => {
-        let generations:number = parseInt(prompt("How many generations do you like to jump?") || "0");
+        let generations: number = parseInt(prompt("How many generations do you like to jump?") || "0");
         if (!isNaN(generations) && generations > 0) {
             jumpGenerations(generations);
         }
     }
 
     const jumpGenerations = (numberOfGenerations: number) => {
-        for (let gen = 0; gen < numberOfGenerations; gen++) {
-            conwayRules.applyRules(gridData);
-            setGridData([...gridData]);
-        }
+        setGridData(currentGridData => {
+            let newGridData = [...currentGridData];
+            for (let gen = 0; gen < numberOfGenerations; gen++) {
+                newGridData = conwayRules.applyRules([...newGridData]);
+            }
+            return newGridData;
+        });
     }
 
-    const jumpOneGeneration = () => jumpGenerations(1);
+    const jumpOneGeneration = () => {
+        console.log("Jumping one generation");
+        jumpGenerations(1);
+    }
 
-    const { play, stop } = usePlayStop(1000, jumpOneGeneration);
+    const { play, stop } = usePlayStop(100, jumpOneGeneration);
 
     return (<div className="container">
         <ControlBar onClearClick={clearGrid}

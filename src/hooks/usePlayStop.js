@@ -5,16 +5,19 @@ const usePlayStop = (time, fn) => {
     const ref = useRef(null);
 
     const play = () => {
-        if (ref.current)
-            return;
+        if (ref.current){
+            stop();
+        }
 
         if (!ref.current)
             ref.current = setInterval(fn, time);
     };
 
     const stop = () => {
-        if (ref.current)
+        if (ref.current) {
             clearInterval(ref.current);
+            ref.current = null;
+        }
     }
 
     return { stop, play };

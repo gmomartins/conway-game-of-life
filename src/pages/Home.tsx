@@ -1,10 +1,68 @@
+import { useState } from "react";
 import ControlBar from "../components/control-bar/ControlBar";
 import Grid from "../components/grid/Grid";
+import usePlayStop from "../hooks/usePlayStop";
+import ConwayRules from "../classes/ConwayRules";
 
-const Home = ()=>{
+const Home = () => {
+    const [gridSize, setGridSize] = useState({ rows: 20, cols: 20 });
+    const conwayRules = new ConwayRules();
+
+    const createGridData = () => {
+        let _rows = new Array(gridSize.rows).fill(0);
+        return _rows.map(() => new Array(gridSize.cols).fill(0));
+    }
+
+    const clearGrid = () => {
+        stop();
+        setGridData(createGridData());
+    }
+
+    const [gridData, setGridData] = useState<boolean[][]>(createGridData());
+
+
+    const handleOnRandomize = () => {
+        let data = Array.from({ length: gridSize.rows }, () =>
+            Array.from({ length: gridSize.cols }, () => (Math.random() > 0.7 ? true : false))
+        );
+
+        setGridData(data);
+    }
+
+    const onCellClick = (rowIndex: number, colIndex: number, cellValue: boolean) => {
+        gridData[rowIndex][colIndex] = cellValue;
+        setGridData([...gridData]);
+    }
+
+    const askNumberOfGenerationsToJump = () => {
+        let generations:number = parseInt(prompt("How many generations do you like to jump?") || "0");
+        if (!isNaN(generations) && generations > 0) {
+            jumpGenerations(generations);
+        }
+    }
+
+    const jumpGenerations = (numberOfGenerations: number) => {
+        for (let gen = 0; gen < numberOfGenerations; gen++) {
+            conwayRules.applyRules(gridData);
+            setGridData([...gridData]);
+        }
+    }
+
+    const jumpOneGeneration = () => jumpGenerations(1);
+
+    const { play, stop } = usePlayStop(1000, jumpOneGeneration);
+
     return (<div className="container">
-        <ControlBar />
-        <Grid rows={20} cols={20} />
+        <ControlBar onClearClick={clearGrid}
+            onStopClick={stop}
+            onPlayClick={play}
+            onRandomizeClick={handleOnRandomize}
+            onJumpGenerationsClick={askNumberOfGenerationsToJump}
+            onNextGenerationClick={jumpOneGeneration} />
+        <Grid rows={gridSize.rows}
+            cols={gridSize.cols}
+            data={gridData}
+            onCellClick={onCellClick} />
     </div>);
 }
 

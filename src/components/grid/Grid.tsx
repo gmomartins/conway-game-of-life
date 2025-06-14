@@ -3,25 +3,16 @@ import { useState, useEffect } from "react";
 type GridProps = {
     rows: number;
     cols: number;
+    data: boolean[][];
+    onCellClick(row:number, col:number, cellValue:boolean):void;
 };
 
-const Grid = ({ rows, cols }: GridProps) => {
-    const [gridData, setGridData] = useState<boolean[][]>([]);
+const Grid = ({ rows, cols, data, onCellClick }: GridProps) => {
 
-    const createGridData = () => {
-        let _rows = new Array(rows).fill(0);
-        return _rows.map(() => new Array(cols).fill(0));
-    }
 
-    useEffect(() => {
-        const grid = createGridData();
-        setGridData(grid);
-        console.log(grid);
-    }, [rows, cols]);
-
-    const onCellClick = (rowIndex: number, colIndex: number) => {
-        gridData[rowIndex][colIndex] = !gridData[rowIndex][colIndex];
-        setGridData([...gridData]);
+    const _onCellClick = (rowIndex: number, colIndex: number) => {
+        let newValue:boolean = !data[rowIndex][colIndex];
+        onCellClick(rowIndex, colIndex, newValue);
     }
 
 
@@ -31,10 +22,10 @@ const Grid = ({ rows, cols }: GridProps) => {
         gridTemplateRows: `repeat(${rows}, 1fr)`,
 
     }}>{
-            gridData.map((row, rowIndex) => (
+            data?.map((row, rowIndex) => (
                 <>
                     {row.map((cell, colIndex) => (
-                        <div key={`${rowIndex}${colIndex}`} data-alive={gridData[rowIndex][colIndex]===true} className="cell" onClick={() => onCellClick(rowIndex, colIndex)}></div>
+                        <div key={`key${rowIndex}${colIndex}`} data-alive={data[rowIndex][colIndex] === true} className="cell" onClick={() => _onCellClick(rowIndex, colIndex)}></div>
                     ))}
                 </>
             ))

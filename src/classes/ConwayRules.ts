@@ -63,9 +63,7 @@ export default class ConwayRules {
             return;
 
         const liveNeighbors = this.countLiveNeighbors(data, row, col);
-        if (liveNeighbors === 2 || liveNeighbors === 3) {
-            return;//cell is already alive, so method returns
-        }
+        data[row][col] = (liveNeighbors === 2 || liveNeighbors === 3);
     }
 
 

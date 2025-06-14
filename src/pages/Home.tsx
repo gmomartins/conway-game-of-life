@@ -56,7 +56,6 @@ const Home = () => {
     }
 
     const jumpOneGeneration = () => {
-        console.log("Jumping one generation");
         jumpGenerations(1);
     }
 

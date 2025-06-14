@@ -153,3 +153,83 @@ test("beacon - period 2", () => {
     data = conwayRules.applyRules(data);
     expect(data).toEqual(firstStage)
 })
+
+function getDiff(arr, expected) {
+    let result = Array.from({ length: arr.length }, () => Array(arr[0].length).fill("-"));
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            result[i][j] = arr[i][j] === expected[i][j] ? " " : "X";
+        }
+    }
+
+    return result;
+}
+
+test("pulsar - period 3", () => {
+
+    const firstStage = [
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, true, false, false, false, false, true, false, true, false, false, false, false, true, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    ]
+
+    const secondStage = [
+        [false, false, false, false, true, false, false, false, false, false, true, false, false, false, false],
+        [false, false, false, false, true, false, false, false, false, false, true, false, false, false, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [true, true, true, false, false, true, true, false, true, true, false, false, true, true, true],
+        [false, false, true, false, true, false, true, false, true, false, true, false, true, false, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, false, true, false, true, false, true, false, true, false, true, false, true, false, false],
+        [true, true, true, false, false, true, true, false, true, true, false, false, true, true, true],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, false, false, false, true, false, false, false, false, false, true, false, false, false, false],
+        [false, false, false, false, true, false, false, false, false, false, true, false, false, false, false]
+    ]
+
+    const thirdStage = [
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, true, true, false, false, false, false, false, true, true, false, false, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, true, false, false, true, false, true, false, true, false, true, false, false, true, false],
+        [false, true, true, true, false, true, true, false, true, true, false, true, true, true, false],
+        [false, false, true, false, true, false, true, false, true, false, true, false, true, false, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, true, true, true, false, false, false, true, true, true, false, false, false],
+        [false, false, true, false, true, false, true, false, true, false, true, false, true, false, false],
+        [false, true, true, true, false, true, true, false, true, true, false, true, true, true, false],
+        [false, true, false, false, true, false, true, false, true, false, true, false, false, true, false],
+        [false, false, false, false, true, true, false, false, false, true, true, false, false, false, false],
+        [false, false, false, true, true, false, false, false, false, false, true, true, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    ];
+
+    let conwayRules = new ConwayRules();
+
+    let data = conwayRules.applyRules(firstStage);
+    expect(data).toEqual(secondStage);
+
+    data = conwayRules.applyRules(secondStage);
+    expect(data).toEqual(thirdStage);
+
+    data = conwayRules.applyRules(thirdStage);
+    expect(data).toEqual(firstStage);
+})

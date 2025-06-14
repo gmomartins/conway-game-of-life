@@ -25,7 +25,7 @@ const Home = () => {
     }, []);
 
 
-    const handleOnRandomize = () => {
+    const randomizeGrid = () => {
         let data = Array.from({ length: gridSize.rows }, () =>
             Array.from({ length: gridSize.cols }, () => (Math.random() > 0.7 ? true : false))
         );
@@ -66,7 +66,7 @@ const Home = () => {
         <ControlBar onClearClick={clearGrid}
             onStopClick={stop}
             onPlayClick={play}
-            onRandomizeClick={handleOnRandomize}
+            onRandomizeClick={randomizeGrid}
             onJumpGenerationsClick={askNumberOfGenerationsToJump}
             onNextGenerationClick={jumpOneGeneration} />
         <Grid rows={gridSize.rows}

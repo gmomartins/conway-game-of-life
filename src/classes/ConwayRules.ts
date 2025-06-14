@@ -38,7 +38,7 @@ export default class ConwayRules {
      * Applies Conway's Game of Life first rule: Any live cell with fewer than two live neighbours dies, as if by underpopulation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyFirstRule(data: boolean[][], row: number, col: number): boolean {
+    public isFirstRuleApplicable(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
@@ -54,7 +54,7 @@ export default class ConwayRules {
      * Applies Conway's Game of Life second rule: Any live cell with two or three live neighbours lives on to the next generation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applySecondRule(data: boolean[][], row: number, col: number): boolean {
+    public isSecondRuleApplicable(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
@@ -69,7 +69,7 @@ export default class ConwayRules {
      * Applies Conway's Game of Life third rule: Any live cell with more than three live neighbours dies, as if by overpopulation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyThirdRule(data: boolean[][], row: number, col: number): boolean {
+    public isThirdRuleApplicable(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
@@ -84,7 +84,7 @@ export default class ConwayRules {
      * Applies Conway's Game of Life fourth rule: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyFourthRule(data: boolean[][], row: number, col: number): boolean {
+    public isFourthRuleApplicable(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (cellIsAlive)
@@ -100,13 +100,13 @@ export default class ConwayRules {
 
         for (let row = 0; row < data.length; row++) {
             for (let col = 0; col < data[row].length; col++) {
-                if (this.applyFirstRule(data, row, col))
+                if (this.isFirstRuleApplicable(data, row, col))
                     resultData[row][col] = false;
-                else if (this.applySecondRule(data, row, col))
+                else if (this.isSecondRuleApplicable(data, row, col))
                     resultData[row][col] = true;
-                else if (this.applyThirdRule(data, row, col))
+                else if (this.isThirdRuleApplicable(data, row, col))
                     resultData[row][col] = false;
-                else if (this.applyFourthRule(data, row, col))
+                else if (this.isFourthRuleApplicable(data, row, col))
                     resultData[row][col] = true;
             }
         }

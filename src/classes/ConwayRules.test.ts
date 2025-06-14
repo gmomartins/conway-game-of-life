@@ -89,3 +89,35 @@ test("blinker - period 2", () => {
     data = conwayRules.applyRules(data);
     expect(data).toEqual(vertical)
 })
+
+test("toad - period 2", () => {
+
+    const firstStage = [
+        [false, false, false, false],
+        [false, true, true, true],
+        [true, true, true, false],
+        [false, false, false, false]
+    ];
+
+    const secondStage = [
+        [false, false, true, false],
+        [true, false, false, true],
+        [true, false, false, true],
+        [false, true, false, false]
+    ];
+
+    let data = [
+        [false, false, false, false],
+        [false, true, true, true],
+        [true, true, true, false],
+        [false, false, false, false]
+    ];
+
+    let conwayRules = new ConwayRules();
+
+    data = conwayRules.applyRules(data);
+    expect(data).toEqual(secondStage)
+
+    data = conwayRules.applyRules(data);
+    expect(data).toEqual(firstStage)
+})

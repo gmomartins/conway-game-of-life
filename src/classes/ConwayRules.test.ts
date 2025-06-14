@@ -233,3 +233,114 @@ test("pulsar - period 3", () => {
     data = conwayRules.applyRules(thirdStage);
     expect(data).toEqual(firstStage);
 })
+
+test("Block - Should be a block forever", () => {
+    const block = [
+        [true, true, false, false],
+        [true, true, false, false],
+        [false, false, false, false],
+        [false, false, false, false]
+    ];
+
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(block);
+    expect(data).toEqual(block)
+})
+
+test("Bee-hive - Should be a bee-hive forever", () => {
+    const beeHive = [
+        [false, true, true, false],
+        [true, false, false, true],
+        [false, true, true, false],
+        [false, false, false, false]
+    ];
+
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(beeHive);
+    expect(data).toEqual(beeHive)
+})
+
+test("Loaf - Should be a Loaf forever", () => {
+    const loaf = [
+        [false, true, true, false],
+        [true, false, false, true],
+        [false, true, false, true],
+        [false, false, true, false]
+    ];
+
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(loaf);
+    expect(data).toEqual(loaf)
+})
+
+test("Boat - Should be a Boat forever", () => {
+    const boat = [
+        [true, true, false, false],
+        [true, false, true, false],
+        [false, true, false, false],
+        [false, false, false, false]
+    ];
+
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(boat);
+    expect(data).toEqual(boat)
+})
+
+test("Tub - Should be a Tub forever", () => {
+    const tub = [
+        [false, true, false, false],
+        [true, false, true, false],
+        [false, true, false, false],
+        [false, false, false, false]
+    ];
+
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(tub);
+    expect(data).toEqual(tub)
+})
+
+test("Glider", () => {
+    const firstStage = [
+        [false, true, false, false],
+        [false, false, true, false],
+        [true, true, true, false],
+        [false, false, false, false]
+    ];
+
+    const secondStage = [
+        [false, false, false, false],
+        [true, false, true, false],
+        [false, true, true, false],
+        [false, true, false, false]
+    ];
+
+    const thirdStage = [
+        [false, false, false, false],
+        [false, false, true, false],
+        [true, false, true, false],
+        [false, true, true, false]
+    ];
+
+    const fourthStage = [
+        [false, false, false, false],
+        [false, true, false, false],
+        [false, false, true, true],
+        [false, true, true, false]
+    ];
+
+    let conwayRules = new ConwayRules();
+    let data = conwayRules.applyRules(firstStage);
+    expect(data).toEqual(secondStage);
+
+    data = conwayRules.applyRules(secondStage);
+    expect(data).toEqual(thirdStage);
+
+    data = conwayRules.applyRules(thirdStage);
+    expect(data).toEqual(fourthStage);
+
+})

@@ -55,7 +55,7 @@ test("countLiveNeighbors - should return 3", () => {
     let count: number = conwayRules.countLiveNeighbors(data, 1, 0);
     expect(count).toEqual(3);
 
-    count= conwayRules.countLiveNeighbors(data, 1, 2);
+    count = conwayRules.countLiveNeighbors(data, 1, 2);
     expect(count).toEqual(3);
 });
 
@@ -70,12 +70,12 @@ test("blinker - period 2", () => {
     ];
 
     const horizontal = [
-        [false, true, false],
-        [false, true, false],
-        [false, true, false]
+        [false, false, false],
+        [true, true, true],
+        [false, false, false]
     ];
 
-    const data = [
+    let data = [
         [false, true, false],
         [false, true, false],
         [false, true, false]
@@ -83,9 +83,9 @@ test("blinker - period 2", () => {
 
     let conwayRules = new ConwayRules();
 
-    conwayRules.applyRules(data);
+    data = conwayRules.applyRules(data);
     expect(data).toEqual(horizontal)
 
-    conwayRules.applyRules(data);
+    data = conwayRules.applyRules(data);
     expect(data).toEqual(vertical)
 })

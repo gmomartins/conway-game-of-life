@@ -38,16 +38,14 @@ export default class ConwayRules {
      * Applies Conway's Game of Life first rule: Any live cell with fewer than two live neighbours dies, as if by underpopulation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyFirstRule(data: boolean[][], row: number, col: number): void {
+    public applyFirstRule(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
-            return;
+            return false;
 
         const liveNeighbors = this.countLiveNeighbors(data, row, col);
-        if (liveNeighbors < 2) {
-            data[row][col] = false;
-        }
+        return liveNeighbors < 2;
     }
 
 
@@ -56,14 +54,14 @@ export default class ConwayRules {
      * Applies Conway's Game of Life second rule: Any live cell with two or three live neighbours lives on to the next generation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applySecondRule(data: boolean[][], row: number, col: number): void {
+    public applySecondRule(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
-            return;
+            return false;
 
         const liveNeighbors = this.countLiveNeighbors(data, row, col);
-        data[row][col] = (liveNeighbors === 2 || liveNeighbors === 3);
+        return (liveNeighbors === 2 || liveNeighbors === 3);
     }
 
 
@@ -71,16 +69,14 @@ export default class ConwayRules {
      * Applies Conway's Game of Life third rule: Any live cell with more than three live neighbours dies, as if by overpopulation.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyThirdRule(data: boolean[][], row: number, col: number): void {
+    public applyThirdRule(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (!cellIsAlive)
-            return;
+            return false;
 
         const liveNeighbors = this.countLiveNeighbors(data, row, col);
-        if (liveNeighbors > 3) {
-            data[row][col] = false;
-        }
+        return (liveNeighbors > 3);
     }
 
 
@@ -88,27 +84,32 @@ export default class ConwayRules {
      * Applies Conway's Game of Life fourth rule: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
      * @param data - The 2D boolean array representing the game grid where true indicates a live cell
      */
-    public applyFourthRule(data: boolean[][], row: number, col: number): void {
+    public applyFourthRule(data: boolean[][], row: number, col: number): boolean {
         let cellIsAlive = data[row][col];
 
         if (cellIsAlive)
-            return;
+            return false;
 
         const liveNeighbors = this.countLiveNeighbors(data, row, col);
-        if (liveNeighbors === 3) {
-            data[row][col] = true;
-        }
+        return (liveNeighbors === 3);
     }
 
 
-    public applyRules(data: boolean[][]): void {
+    public applyRules(data: boolean[][]): boolean[][] {
+        let resultData = Array.from({ length: data.length }, () => Array(data[0].length).fill(false));
+
         for (let row = 0; row < data.length; row++) {
             for (let col = 0; col < data[row].length; col++) {
-                this.applyFirstRule(data, row, col);
-                this.applySecondRule(data, row, col);
-                this.applyThirdRule(data, row, col);
-                this.applyFourthRule(data, row, col);
+                if (this.applyFirstRule(data, row, col))
+                    resultData[row][col] = false;
+                else if (this.applySecondRule(data, row, col))
+                    resultData[row][col] = true;
+                else if (this.applyThirdRule(data, row, col))
+                    resultData[row][col] = false;
+                else if (this.applyFourthRule(data, row, col))
+                    resultData[row][col] = true;
             }
         }
+        return resultData;
     }
 }
